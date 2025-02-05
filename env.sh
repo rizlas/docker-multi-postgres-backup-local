@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+
+# Init log system
+mkdir -p $(dirname "$0")/logs
+source "$(dirname "$0")/log.sh"
+
 # Pre-validate the environment
 if [ "${POSTGRES_DB}" = "**None**" -a "${POSTGRES_DB_FILE}" = "**None**" ]; then
     logm "error"  "You need to set the POSTGRES_DB or POSTGRES_DB_FILE environment variable."

@@ -10,23 +10,25 @@ ARG GID=1000
 ARG USER=pbl
 ARG GROUP=pbl
 
-# FIX Debian cross build
+# -------------------------- FIX Debian cross build -------------------------- #
 ARG DEBIAN_FRONTEND=noninteractive
-RUN set -x \
-  && ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split \
-  && ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb \
-  && ln -s /bin/tar /usr/sbin/tar \
-  && ln -s /bin/rm /usr/sbin/rm \
-  && ln -s /usr/bin/dpkg-split /usr/local/sbin/dpkg-split \
-  && ln -s /usr/bin/dpkg-deb /usr/local/sbin/dpkg-deb \
-  && ln -s /bin/tar /usr/local/sbin/tar \
-  && ln -s /bin/rm /usr/local/sbin/rm
-#
-
-RUN set -x \
-  && apt-get update && apt-get install -y --no-install-recommends ca-certificates curl && apt-get clean && rm -rf /var/lib/apt/lists/* \
-  && curl --fail --retry 4 --retry-all-errors -o /usr/local/bin/go-cron.gz -L https://github.com/prodrigestivill/go-cron/releases/download/$GOCRONVER/go-cron-$TARGETOS-$TARGETARCH.gz \
-  && gzip -vnd /usr/local/bin/go-cron.gz && chmod a+x /usr/local/bin/go-cron
+RUN <<EOF
+set -x
+ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split
+ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb
+ln -s /bin/tar /usr/sbin/tar
+ln -s /bin/rm /usr/sbin/rm
+ln -s /usr/bin/dpkg-split /usr/local/sbin/dpkg-split
+ln -s /usr/bin/dpkg-deb /usr/local/sbin/dpkg-deb
+ln -s /bin/tar /usr/local/sbin/tar
+ln -s /bin/rm /usr/local/sbin/rm
+# ---------------------------------------------------------------------------- #
+apt-get update && apt-get install -y --no-install-recommends ca-certificates curl && apt-get clean && rm -rf /var/lib/apt/lists/*
+curl --fail --retry 4 --retry-all-errors -L $GO_CRON_URL | zcat > /usr/local/bin/go-cron
+groupadd -g $GID $GROUP && useradd -u $UID -g $GROUP $USER
+chown $USER:$GROUP /usr/local/bin/go-cron
+chmod a+x /usr/local/bin/go-cron
+EOF
 
 ENV POSTGRES_DB="**None**" \
   POSTGRES_DB_FILE="**None**" \
@@ -40,10 +42,10 @@ ENV POSTGRES_DB="**None**" \
   POSTGRES_EXTRA_OPTS="-Z1" \
   POSTGRES_CLUSTER="FALSE" \
   SCHEDULE="@daily" \
-  ENVS_DIR="/envs" \
+  ENVS_DIR="/app/envs" \
   VALIDATE_ON_START="TRUE" \
   BACKUP_ON_START="FALSE" \
-  BACKUP_DIR="/backups" \
+  BACKUP_DIR="/app/backups" \
   BACKUP_SUFFIX=".sql.gz" \
   BACKUP_LATEST_TYPE="symlink" \
   BACKUP_KEEP_DAYS=7 \
@@ -57,13 +59,13 @@ ENV POSTGRES_DB="**None**" \
   WEBHOOK_POST_BACKUP_URL="**None**" \
   WEBHOOK_EXTRA_ARGS=""
 
-COPY hooks /hooks
-COPY backup.sh env.sh init.sh log.sh /
+WORKDIR /app
 
-VOLUME /backups
+COPY --chown=$USER:$GROUP hooks hooks
+COPY --chown=$USER:$GROUP backup.sh env.sh init.sh log.sh ./
 
-ENTRYPOINT []
-CMD ["/init.sh"]
+RUN mkdir $BACKUP_DIR && chown -R $USER:$GROUP /app && chmod +x /app/*.sh
 
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f "http://localhost:$HEALTHCHECK_PORT/" || exit 1
+USER $USER
+
+ENTRYPOINT ["bash", "init.sh"]

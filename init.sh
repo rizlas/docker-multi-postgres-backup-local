@@ -7,10 +7,14 @@ if [[ ! -d "$ENVS_DIR" || -z "$(ls -A "$ENVS_DIR"/*.env)" ]]; then
     exit 1
 fi
 
-# Prevalidate configuration (don't source)
-# if [ "${VALIDATE_ON_START}" = "TRUE" ]; then
-#     /env.sh
-# fi
+# Prevalidate configuration
+if [ "${VALIDATE_ON_START}" = "TRUE" ]; then
+    for ENV_FILE in "${ENVS_DIR}"/*.env; do
+        echo "Validating environment variables from ${ENV_FILE}"
+        source "${ENV_FILE}"
+        $(dirname "$0")/env.sh
+    done
+fi
 
 for ENV_FILE in "${ENVS_DIR}"/*.env; do
     echo "Loading environment variables from ${ENV_FILE}"

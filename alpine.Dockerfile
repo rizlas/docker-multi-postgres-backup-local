@@ -13,7 +13,7 @@ ARG GROUP=pbl
 RUN <<EOF
 set -x
 apk update
-apk add ca-certificates curl
+apk add --no-cache ca-certificates curl
 curl --fail --retry 4 --retry-all-errors -L $GO_CRON_URL | zcat > /usr/local/bin/go-cron
 addgroup -g $GID $GROUP && adduser -D -u $UID -G $GROUP $USER
 chown $USER:$GROUP /usr/local/bin/go-cron
@@ -49,14 +49,13 @@ ENV POSTGRES_DB="**None**" \
   WEBHOOK_POST_BACKUP_URL="**None**" \
   WEBHOOK_EXTRA_ARGS=""
 
-
 WORKDIR /app
-RUN mkdir $BACKUP_DIR && chown -R $USER:$GROUP /app
-
-USER $USER
 
 COPY --chown=$USER:$GROUP hooks hooks
 COPY --chown=$USER:$GROUP backup.sh env.sh init.sh log.sh ./
 
-ENTRYPOINT []
-CMD ["sh", "init.sh"]
+RUN mkdir $BACKUP_DIR && chown -R $USER:$GROUP /app && chmod +x /app/*.sh
+
+USER $USER
+
+ENTRYPOINT ["sh", "init.sh"]

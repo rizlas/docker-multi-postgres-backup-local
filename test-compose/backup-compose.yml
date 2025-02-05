@@ -3,14 +3,29 @@
 name: pgbackups
 
 services:
-  pgbackups:
-    container_name: postgres-backup-local-test
-    image: rizl4s/postgres-backup-local:16
+  pgbackups-alpine:
+    container_name: postgres-backup-local-test-alpine
+    image: rizl4s/postgres-backup-local:16-alpine
     build:
       context: ..
       dockerfile: alpine.Dockerfile
       args:
         BASETAG: 16-alpine
+    restart: always
+    volumes:
+      - ./envs:/app/envs
+    networks:
+      - net-postgres1
+      - net-postgres2
+
+  pgbackups-debian:
+    container_name: postgres-backup-local-test-debian
+    image: rizl4s/postgres-backup-local:16-bookworm
+    build:
+      context: ..
+      dockerfile: debian.Dockerfile
+      args:
+        BASETAG: 16-bookworm
     restart: always
     volumes:
       - ./envs:/app/envs
