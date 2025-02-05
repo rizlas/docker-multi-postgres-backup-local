@@ -1,0 +1,19 @@
+---
+name: postgres2
+
+services:
+  postgres2:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=database2
+      - POSTGRES_USER=username2
+      - POSTGRES_PASSWORD=password2
+    networks:
+      - postgres2
+
+networks:
+  postgres2:
+    name: net-postgres2
+    driver: bridge
+    external: false

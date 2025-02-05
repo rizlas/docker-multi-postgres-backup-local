@@ -1,0 +1,23 @@
+---
+# docker compose -f backup-compose.yml up -d --build --force-recreate
+name: pgbackups
+
+services:
+  pgbackups:
+    container_name: postgres-backup-local-test
+    image: rizl4s/postgres-backup-local:16
+    build:
+      context: ..
+      dockerfile: alpine.Dockerfile
+    restart: always
+    volumes:
+      - ./envs:/envs
+    networks:
+      - net-postgres1
+      - net-postgres2
+
+networks:
+  net-postgres1:
+    external: true
+  net-postgres2:
+    external: true
