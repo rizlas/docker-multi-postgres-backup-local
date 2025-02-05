@@ -22,6 +22,7 @@ EOF
 
 ENV POSTGRES_DB="**None**" \
   POSTGRES_DB_FILE="**None**" \
+  POSTGRES_HOSTNAME="**None**" \
   POSTGRES_HOST="**None**" \
   POSTGRES_PORT=5432 \
   POSTGRES_USER="**None**" \

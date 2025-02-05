@@ -20,6 +20,11 @@ if [ "${POSTGRES_HOST}" = "**None**" ]; then
     fi
 fi
 
+if [ "${POSTGRES_HOSTNAME}" = "**None**" ]; then
+    logm "error"  "You need to set the POSTGRES_HOSTNAME environment variable."
+    exit 1
+fi
+
 if [ "${POSTGRES_USER}" = "**None**" -a "${POSTGRES_USER_FILE}" = "**None**" ]; then
     logm "error"  "You need to set the POSTGRES_USER or POSTGRES_USER_FILE environment variable."
     exit 1
