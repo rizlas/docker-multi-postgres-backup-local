@@ -66,18 +66,18 @@ for DB in ${POSTGRES_DBS}; do
             done
         )
         rm -rf "${DFILE}" "${WFILE}" "${MFILE}"
-        logm "Replacing daily backup ${DFILE} folder this last backup..."
+        logm "Replacing ${DB} daily backup ${DFILE} folder this last backup..."
         mv "${DFILENEW}" "${DFILE}"
-        logm "Replacing weekly backup ${WFILE} folder this last backup..."
+        logm "Replacing ${DB} weekly backup ${WFILE} folder this last backup..."
         mv "${WFILENEW}" "${WFILE}"
-        logm "Replacing monthly backup ${MFILE} folder this last backup..."
+        logm "Replacing ${DB} monthly backup ${MFILE} folder this last backup..."
         mv "${MFILENEW}" "${MFILE}"
     else
-        logm "Replacing daily backup ${DFILE} file this last backup..."
+        logm "Replacing ${DB} daily backup ${DFILE} file this last backup..."
         ln -vf "${FILE}" "${DFILE}"
-        logm "Replacing weekly backup ${WFILE} file this last backup..."
+        logm "Replacing ${DB} weekly backup ${WFILE} file this last backup..."
         ln -vf "${FILE}" "${WFILE}"
-        logm "Replacing monthly backup ${MFILE} file this last backup..."
+        logm "Replacing ${DB} monthly backup ${MFILE} file this last backup..."
         ln -vf "${FILE}" "${MFILE}"
     fi
     # Update latest symlinks
@@ -86,16 +86,16 @@ for DB in ${POSTGRES_DBS}; do
         LATEST_LN_ARG="-s"
     fi
     if [ "${BACKUP_LATEST_TYPE}" = "symlink" -o "${BACKUP_LATEST_TYPE}" = "hardlink"  ]; then
-        logm "Point last backup file to this last backup..."
+        logm "Point last ${DB} backup file to this last backup..."
         ln "${LATEST_LN_ARG}" -vf "${LAST_FILENAME}" "${BACKUP_DIR_DB}/last/${DB}-latest${BACKUP_SUFFIX}"
-        logm "Point latest daily backup to this last backup..."
+        logm "Point latest ${DB} daily backup to this last backup..."
         ln "${LATEST_LN_ARG}" -vf "${DAILY_FILENAME}" "${BACKUP_DIR_DB}/daily/${DB}-latest${BACKUP_SUFFIX}"
-        logm "Point latest weekly backup to this last backup..."
+        logm "Point latest ${DB} weekly backup to this last backup..."
         ln "${LATEST_LN_ARG}" -vf "${WEEKLY_FILENAME}" "${BACKUP_DIR_DB}/weekly/${DB}-latest${BACKUP_SUFFIX}"
-        logm "Point latest monthly backup to this last backup..."
+        logm "Point latest ${DB} monthly backup to this last backup..."
         ln "${LATEST_LN_ARG}" -vf "${MONTHY_FILENAME}" "${BACKUP_DIR_DB}/monthly/${DB}-latest${BACKUP_SUFFIX}"
     else # [ "${BACKUP_LATEST_TYPE}" = "none"  ]
-        logm "Not updating lastest backup."
+        logm "Not updating ${DB} latest backup."
     fi
     #Clean old files
     logm "Cleaning older files for ${DB} database from ${POSTGRES_HOST}..."
