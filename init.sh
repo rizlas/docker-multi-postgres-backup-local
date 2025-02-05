@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -Eeo pipefail
 
-mkdir /logs
-ENVS_DIR="/envs"
+mkdir -p /logs
+
+# Check if ENVS_DIR is empty or does not exist
+if [[ ! -d "$ENVS_DIR" || -z "$(ls -A "$ENVS_DIR"/*.env)" ]]; then
+    echo "Error: No environment files found in $ENVS_DIR. Exiting." >&2
+    exit 1
+fi
 
 # Prevalidate configuration (don't source)
 # if [ "${VALIDATE_ON_START}" = "TRUE" ]; then
@@ -18,7 +23,7 @@ for ENV_FILE in "${ENVS_DIR}"/*.env; do
         EXTRA_ARGS="-i"
     fi
     
-    echo "Starting backup scheduler for databases: ${POSTGRES_DBS} on schedule: ${SCHEDULE}"
+    echo "Starting backup scheduler for databases: ${POSTGRES_DB} on schedule: ${SCHEDULE}"
     /usr/local/bin/go-cron -s "$SCHEDULE" -p "$HEALTHCHECK_PORT" $EXTRA_ARGS -- /backup.sh $ENV_FILE &
 done
 
