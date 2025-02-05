@@ -1,9 +1,14 @@
 ARG BASETAG=latest
 FROM postgres:$BASETAG
 
-ARG GOCRONVER=v0.0.11
 ARG TARGETOS
 ARG TARGETARCH
+ARG GO_CRON_VERSION=v0.0.11
+ARG GO_CRON_URL=https://github.com/prodrigestivill/go-cron/releases/download/$GO_CRON_VERSION/go-cron-$TARGETOS-$TARGETARCH-static.gz
+ARG UID=1000
+ARG GID=1000
+ARG USER=pbl
+ARG GROUP=pbl
 
 # FIX Debian cross build
 ARG DEBIAN_FRONTEND=noninteractive

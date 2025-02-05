@@ -9,9 +9,11 @@ services:
     build:
       context: ..
       dockerfile: alpine.Dockerfile
+      args:
+        BASETAG: 16-alpine
     restart: always
     volumes:
-      - ./envs:/envs
+      - ./envs:/app/envs
     networks:
       - net-postgres1
       - net-postgres2

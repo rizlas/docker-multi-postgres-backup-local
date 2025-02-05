@@ -1,13 +1,24 @@
 ARG BASETAG=alpine
 FROM postgres:$BASETAG
 
-ARG GOCRONVER=v0.0.11
 ARG TARGETOS
 ARG TARGETARCH
-RUN set -x \
-  && apk update && apk add ca-certificates curl \
-  && curl --fail --retry 4 --retry-all-errors -L https://github.com/prodrigestivill/go-cron/releases/download/$GOCRONVER/go-cron-$TARGETOS-$TARGETARCH-static.gz | zcat > /usr/local/bin/go-cron \
-  && chmod a+x /usr/local/bin/go-cron
+ARG GO_CRON_VERSION=v0.0.11
+ARG GO_CRON_URL=https://github.com/prodrigestivill/go-cron/releases/download/$GO_CRON_VERSION/go-cron-$TARGETOS-$TARGETARCH-static.gz
+ARG UID=1000
+ARG GID=1000
+ARG USER=pbl
+ARG GROUP=pbl
+
+RUN <<EOF
+set -x
+apk update
+apk add ca-certificates curl
+curl --fail --retry 4 --retry-all-errors -L $GO_CRON_URL | zcat > /usr/local/bin/go-cron
+addgroup -g $GID $GROUP && adduser -D -u $UID -G $GROUP $USER
+chown $USER:$GROUP /usr/local/bin/go-cron
+chmod a+x /usr/local/bin/go-cron
+EOF
 
 ENV POSTGRES_DB="**None**" \
   POSTGRES_DB_FILE="**None**" \
@@ -21,30 +32,31 @@ ENV POSTGRES_DB="**None**" \
   POSTGRES_EXTRA_OPTS="-Z1" \
   POSTGRES_CLUSTER="FALSE" \
   SCHEDULE="@daily" \
-  ENVS_DIR="/envs" \
+  ENVS_DIR="/app/envs" \
   VALIDATE_ON_START="TRUE" \
   BACKUP_ON_START="FALSE" \
-  BACKUP_DIR="/backups" \
+  BACKUP_DIR="/app/backups" \
   BACKUP_SUFFIX=".sql.gz" \
   BACKUP_LATEST_TYPE="symlink" \
   BACKUP_KEEP_DAYS=7 \
   BACKUP_KEEP_WEEKS=4 \
   BACKUP_KEEP_MONTHS=6 \
   BACKUP_KEEP_MINS=1440 \
-  HEALTHCHECK_PORT=8080 \
+  HEALTHCHECK_PORT=0 \
   WEBHOOK_URL="**None**" \
   WEBHOOK_ERROR_URL="**None**" \
   WEBHOOK_PRE_BACKUP_URL="**None**" \
   WEBHOOK_POST_BACKUP_URL="**None**" \
   WEBHOOK_EXTRA_ARGS=""
 
-COPY hooks /hooks
-COPY backup.sh env.sh init.sh log.sh /
 
-VOLUME /backups
+WORKDIR /app
+RUN mkdir $BACKUP_DIR && chown -R $USER:$GROUP /app
+
+USER $USER
+
+COPY --chown=$USER:$GROUP hooks hooks
+COPY --chown=$USER:$GROUP backup.sh env.sh init.sh log.sh ./
 
 ENTRYPOINT []
-CMD ["/init.sh"]
-
-HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f "http://localhost:$HEALTHCHECK_PORT/" || exit 1
+CMD ["sh", "init.sh"]

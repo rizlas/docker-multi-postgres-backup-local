@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeo pipefail
 
-mkdir -p /logs
-
 # Check if ENVS_DIR is empty or does not exist
 if [[ ! -d "$ENVS_DIR" || -z "$(ls -A "$ENVS_DIR"/*.env)" ]]; then
     echo "Error: No environment files found in $ENVS_DIR. Exiting." >&2
@@ -24,7 +22,7 @@ for ENV_FILE in "${ENVS_DIR}"/*.env; do
     fi
     
     echo "Starting backup scheduler for databases: ${POSTGRES_DB} on schedule: ${SCHEDULE}"
-    /usr/local/bin/go-cron -s "$SCHEDULE" -p "$HEALTHCHECK_PORT" $EXTRA_ARGS -- /backup.sh $ENV_FILE &
+    /usr/local/bin/go-cron -s "$SCHEDULE" -p "$HEALTHCHECK_PORT" $EXTRA_ARGS -- $(dirname "$0")/backup.sh $ENV_FILE &
 done
 
 # Keep the container running

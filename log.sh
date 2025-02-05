@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LOG_FILE="/logs/$(basename "${ENV_FILE}" | sed -r 's/\..+$//').log"
+LOG_FILE="$(dirname "$0")/logs/$(basename "${ENV_FILE}" | sed -r 's/\..+$//').log"
 # Clears the log file
 > "$LOG_FILE"
 

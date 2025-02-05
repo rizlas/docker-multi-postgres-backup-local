@@ -4,6 +4,7 @@ set -Eeo pipefail
 ENV_FILE=$1
 
 # Init log system
+mkdir -p $(dirname "$0")/logs
 source "$(dirname "$0")/log.sh"
 
 logm "Loading environment variables from ${ENV_FILE}"
