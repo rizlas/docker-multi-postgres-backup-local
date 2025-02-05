@@ -58,6 +58,8 @@ Please check that backup folder has appropriate permissions.
 mkdir -p /var/opt/pgbackups && chown -R 1000:1000 /var/opt/pgbackups
 ```
 
+As example check also the test-compose directory in this repo.
+
 ### Environment Variables
 
 Most variables are the same as in the [official postgres image](https://hub.docker.com/_/postgres/).
