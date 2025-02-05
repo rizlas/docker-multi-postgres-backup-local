@@ -74,7 +74,7 @@ Most variables are the same as in the [official postgres image](https://hub.dock
 
 | env variable | description |
 |--|--|
-| BACKUP_DIR | Directory to save the backup at. Defaults to `/backups`. |
+| BACKUP_DIR | Directory to save the backup at. Defaults to `/app/backups`. |
 | BACKUP_SUFFIX | Filename suffix to save the backup. Defaults to `.sql.gz`. |
 | BACKUP_ON_START | If set to `TRUE` performs an backup on each container start or restart. Defaults to `FALSE`. |
 | BACKUP_KEEP_DAYS | Number of daily backups to keep before removal. Defaults to `7`. |
@@ -83,7 +83,7 @@ Most variables are the same as in the [official postgres image](https://hub.dock
 | BACKUP_KEEP_MINS | Number of minutes for `last` folder backups to keep before removal. Defaults to `1440`. |
 | BACKUP_LATEST_TYPE | Type of `latest` pointer (`symlink`,`hardlink`,`none`). Defaults to `symlink`. |
 | VALIDATE_ON_START | If set to `FALSE` does not validate the configuration on start. Disabling this is not recommended. Defaults to `TRUE`. |
-| HEALTHCHECK_PORT | Port listening for cron-schedule health check. Defaults to `8080`. |
+| HEALTHCHECK_PORT | Port listening for cron-schedule health check. Defaults to `0` (disabled). |
 | POSTGRES_DB | Comma or space separated list of postgres databases to backup. If POSTGRES_CLUSTER is set this refers to the database to connect to for dumping global objects and discovering what other databases should be dumped (typically is either `postgres` or `template1`). Required. |
 | POSTGRES_DB_FILE | Alternative to POSTGRES_DB, but with one database per line, for usage with docker secrets. |
 | POSTGRES_EXTRA_OPTS | Additional [options](https://www.postgresql.org/docs/12/app-pgdump.html#PG-DUMP-OPTIONS) for `pg_dump` (or `pg_dumpall` [options](https://www.postgresql.org/docs/12/app-pg-dumpall.html#id-1.9.4.13.6) if POSTGRES_CLUSTER is set). Defaults to `-Z1`. |
@@ -96,6 +96,7 @@ Most variables are the same as in the [official postgres image](https://hub.dock
 | POSTGRES_USER | Postgres connection parameter; postgres user to connect with. Required. |
 | POSTGRES_USER_FILE | Alternative to POSTGRES_USER, for usage with docker secrets. |
 | SCHEDULE | [Cron-schedule](http://godoc.org/github.com/robfig/cron#hdr-Predefined_schedules) specifying the interval between postgres backups. Defaults to `@daily`. |
+| ENVS_DIR | Path to directory containing env files. Defaults to `/app/envs`. |
 | TZ | [POSIX TZ variable](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html) specifying the timezone used to evaluate SCHEDULE cron (example "Europe/Paris"). |
 | WEBHOOK_URL | URL to be called after an error or after a successful backup (POST with a JSON payload, check `hooks/00-webhook` file for more info). Default disabled. |
 | WEBHOOK_ERROR_URL | URL to be called in case backup fails. Default disabled. |
