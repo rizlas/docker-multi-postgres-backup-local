@@ -53,10 +53,12 @@ ENV POSTGRES_DB="**None**" \
 WORKDIR /app
 
 COPY --chown=$USER:$GROUP hooks hooks
-COPY --chown=$USER:$GROUP backup.sh env.sh init.sh log.sh ./
+COPY --chown=$USER:$GROUP backup.sh env.sh init.sh log.sh healthcheck.sh ./
 
 RUN mkdir $BACKUP_DIR && chown -R $USER:$GROUP /app && chmod +x /app/*.sh
 
 USER $USER
 
 ENTRYPOINT ["sh", "init.sh"]
+
+HEALTHCHECK --interval=5m --timeout=15s CMD /app/healthcheck.sh || exit 1
