@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-LOG_FILE="$(dirname "$0")/logs/$(basename "${ENV_FILE}" | sed -r 's/\..+$//').log"
-# Clears the log file
-> "$LOG_FILE"
+# Check if ENV_FILE is not empty
+if [ -s "$ENV_FILE" ]; then
+    LOG_FILE="$(dirname "$0")/logs/$(basename "${ENV_FILE}" | sed -r 's/\..+$//').log"
+    # Clears the log file
+    > "$LOG_FILE"
+fi
 
 logm() {
     local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
