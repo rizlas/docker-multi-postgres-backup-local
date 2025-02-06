@@ -1,4 +1,4 @@
-# postgres-backup-local
+# multi-postgres-backup-local
 
 ![Docker pulls](https://img.shields.io/docker/pulls/prodrigestivill/postgres-backup-local)
 ![GitHub actions](https://github.com/prodrigestivill/docker-postgres-backup-local/actions/workflows/ci.yml/badge.svg?branch=main)
@@ -41,7 +41,7 @@ services:
       - POSTGRES_PASSWORD=password
       #  - POSTGRES_PASSWORD_FILE=/run/secrets/db_password <-- alternative for POSTGRES_PASSWORD (to use with docker secrets)
   pgbackups:
-    image: rizl4s/postgres-backup-local:16-bookworm
+    image: rizl4s/multi-postgres-backup-local:16-bookworm
     restart: always
     volumes:
       - /var/opt/pgbackups:/app/backups
