@@ -22,6 +22,13 @@ docker buildx inspect --bootstrap
 
 In order to only build the images locally run the following command:
 
+Export this two variables before any command:
+
+```sh
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+```
+
 ```sh
 docker buildx bake --pull
 ```
