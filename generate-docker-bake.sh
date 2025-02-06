@@ -5,7 +5,7 @@ set -e
 GOCRONVER="v0.0.11"
 MAIN_TAG="17"
 TAGS_EXTRA="16 15 14 13"
-PLATFORMS="linux/amd64 linux/arm64 linux/arm/v7 linux/s390x linux/ppc64le"
+PLATFORMS="linux/amd64 linux/arm64 linux/arm/v7 linux/arm/v6 linux/s390x linux/ppc64le"
 DOCKER_BAKE_FILE="${1:-docker-bake.hcl}"
 
 cd "$(dirname "$0")"
@@ -24,7 +24,7 @@ variable "REGISTRY_PREFIX" {
 }
 
 variable "IMAGE_NAME" {
-	default = "postgres-backup-local"
+	default = "multi-postgres-backup-local"
 }
 
 variable "BUILD_REVISION" {

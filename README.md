@@ -1,8 +1,5 @@
 # multi-postgres-backup-local
 
-![Docker pulls](https://img.shields.io/docker/pulls/prodrigestivill/postgres-backup-local)
-![GitHub actions](https://github.com/prodrigestivill/docker-postgres-backup-local/actions/workflows/ci.yml/badge.svg?branch=main)
-
 Backup PostgresSQL to the local filesystem with periodic rotating backups, based on
 [schickling/postgres-backup-s3](https://hub.docker.com/r/schickling/postgres-backup-s3/)
 and [prodrigestivill/docker-postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local).
@@ -59,6 +56,10 @@ mkdir -p /var/opt/pgbackups && chown -R 1000:1000 /var/opt/pgbackups
 ```
 
 As example check also the test-compose directory in this repo.
+
+## Build
+
+See [here](BUILD.md) for build instructions.
 
 ### Environment Variables
 

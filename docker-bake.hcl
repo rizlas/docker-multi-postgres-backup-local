@@ -26,7 +26,7 @@ target "alpine" {
 
 target "debian-latest" {
 	inherits = ["debian"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "17"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:latest",
@@ -37,7 +37,7 @@ target "debian-latest" {
 
 target "alpine-latest" {
 	inherits = ["alpine"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "17-alpine"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:alpine",
@@ -48,7 +48,7 @@ target "alpine-latest" {
 
 target "debian-16" {
 	inherits = ["debian"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "16"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:16",
@@ -58,7 +58,7 @@ target "debian-16" {
 
 target "alpine-16" {
 	inherits = ["alpine"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "16-alpine"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:16-alpine",
@@ -68,7 +68,7 @@ target "alpine-16" {
 
 target "debian-15" {
 	inherits = ["debian"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "15"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:15",
@@ -78,7 +78,7 @@ target "debian-15" {
 
 target "alpine-15" {
 	inherits = ["alpine"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "15-alpine"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:15-alpine",
@@ -88,7 +88,7 @@ target "alpine-15" {
 
 target "debian-14" {
 	inherits = ["debian"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "14"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:14",
@@ -98,7 +98,7 @@ target "debian-14" {
 
 target "alpine-14" {
 	inherits = ["alpine"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "14-alpine"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:14-alpine",
@@ -108,7 +108,7 @@ target "alpine-14" {
 
 target "debian-13" {
 	inherits = ["debian"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "13"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:13",
@@ -118,7 +118,7 @@ target "debian-13" {
 
 target "alpine-13" {
 	inherits = ["alpine"]
-	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/s390x", "linux/ppc64le"]
+	platforms = ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/arm/v6", "linux/s390x", "linux/ppc64le"]
 	args = {"BASETAG" = "13-alpine"}
 	tags = [
 		"${REGISTRY_PREFIX}${IMAGE_NAME}:13-alpine",
