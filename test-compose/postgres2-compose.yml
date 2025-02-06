@@ -3,7 +3,7 @@ name: postgres2
 
 services:
   postgres2:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     restart: always
     environment:
       - POSTGRES_DB=database2

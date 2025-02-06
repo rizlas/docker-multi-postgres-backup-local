@@ -5,12 +5,12 @@ name: pgbackups
 services:
   pgbackups-alpine:
     container_name: multi-postgres-backup-local-test-alpine
-    image: rizl4s/multi-postgres-backup-local:16-alpine
+    image: rizl4s/multi-postgres-backup-local:17-alpine
     build:
       context: ..
       dockerfile: alpine.Dockerfile
       args:
-        BASETAG: 16-alpine
+        BASETAG: 17-alpine
     restart: always
     volumes:
       - ./envs:/app/envs
@@ -20,12 +20,12 @@ services:
 
   pgbackups-debian:
     container_name: multi-postgres-backup-local-test-debian
-    image: rizl4s/multi-postgres-backup-local:16-bookworm
+    image: rizl4s/multi-postgres-backup-local:17
     build:
       context: ..
       dockerfile: debian.Dockerfile
       args:
-        BASETAG: 16-bookworm
+        BASETAG: 17
     restart: always
     volumes:
       - ./envs:/app/envs

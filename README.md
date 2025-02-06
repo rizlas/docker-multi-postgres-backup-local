@@ -30,7 +30,7 @@ Docker Compose:
 ```yaml
 services:
   postgres:
-    image: postgres:16-bookworm
+    image: postgres:17
     restart: always
     environment:
       - POSTGRES_DB=database
@@ -38,7 +38,7 @@ services:
       - POSTGRES_PASSWORD=password
       #  - POSTGRES_PASSWORD_FILE=/run/secrets/db_password <-- alternative for POSTGRES_PASSWORD (to use with docker secrets)
   pgbackups:
-    image: rizl4s/multi-postgres-backup-local:16-bookworm
+    image: rizl4s/multi-postgres-backup-local:17
     restart: always
     volumes:
       - /var/opt/pgbackups:/app/backups
